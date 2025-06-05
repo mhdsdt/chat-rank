@@ -25,7 +25,6 @@ const containsPersianArabic = (text: string): boolean => {
 export function ChatScoreboard({ data, isProcessing }: ChatScoreboardProps) {
   const [searchQuery, setSearchQuery] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
-  const [isSearchFocused, setIsSearchFocused] = useState(false)
 
   // Filter data based on search query
   const filteredData = data?.filter((chat) => {
@@ -108,37 +107,29 @@ export function ChatScoreboard({ data, isProcessing }: ChatScoreboardProps) {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="scoreboard" className="mt-6 space-y-4">
-      {/* Search Bar */}
-      <div className="flex items-center space-x-2">
-        <div className="relative flex-1">
-          <Search
-            className={`absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 transition-colors z-10 ${
-              isSearchFocused 
-                ? "text-primary" 
-                : "text-slate-500 dark:text-slate-400"
-            }`}
-          />
-          <Input
-            type="text"
-            placeholder="Search by contact name or ID..."
-            value={searchQuery}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            onFocus={() => setIsSearchFocused(true)}
-            onBlur={() => setIsSearchFocused(false)}
-            className="pl-10 pr-10 backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700"
-          />
-          {searchQuery && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={clearSearch}
-              className="absolute right-1 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 hover:bg-slate-100 dark:hover:bg-slate-800 z-10"
-            >
-              <X className="h-3 w-3" />
-            </Button>
-          )}
+        {/* Search Bar */}
+        <div className="flex items-center space-x-2">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-500 dark:text-slate-400 z-10" />
+            <Input
+              type="text"
+              placeholder="Search by contact name or ID..."
+              value={searchQuery}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              className="pl-10 pr-10 backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700"
+            />
+            {searchQuery && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={clearSearch}
+                className="absolute right-1 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 hover:bg-slate-100 dark:hover:bg-slate-800 z-10"
+              >
+                <X className="h-3 w-3" />
+              </Button>
+            )}
+          </div>
         </div>
-      </div>
 
         {/* Results Info */}
         <div className="flex items-center justify-between text-sm text-slate-600 dark:text-slate-400">
