@@ -55,10 +55,22 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: "Inter", var(--font-vazirmatn), "Vazirmatn", system-ui, -apple-system, sans-serif;
   }
 }
 
 /* Glassmorphism styles */
 .glassmorphism {
   @apply backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 shadow-lg;
+}
+
+/* Persian text support */
+.persian-text {
+  font-family: var(--font-vazirmatn), "Vazirmatn", "Tahoma", "Arial Unicode MS", sans-serif;
+  direction: rtl;
+}
+
+/* Mixed content (Persian + English) */
+.mixed-content {
+  font-family: "Inter", var(--font-vazirmatn), "Vazirmatn", "Tahoma", system-ui, sans-serif;
 }

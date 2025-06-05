@@ -80,7 +80,7 @@ export function ChatScoreboard({ data, isProcessing }: ChatScoreboardProps) {
                       <span>{index + 1}</span>
                     </div>
                   </TableCell>
-                  <TableCell className="font-medium">{chat.name}</TableCell>
+                  <TableCell className="font-medium mixed-content">{chat.name}</TableCell>
                   <TableCell className="text-right font-semibold">
                     {new Intl.NumberFormat().format(chat.messageCount)}
                   </TableCell>

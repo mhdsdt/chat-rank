@@ -77,6 +77,10 @@ const config = {
         none: "none",
         blur: "blur(20px)",
       },
+      fontFamily: {
+        sans: ["Inter", "var(--font-vazirmatn)", "Vazirmatn", "system-ui", "sans-serif"],
+        vazirmatn: ["var(--font-vazirmatn)", "Vazirmatn", "Tahoma", "Arial Unicode MS", "sans-serif"],
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
