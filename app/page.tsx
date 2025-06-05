@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { FileUploader } from "@/components/file-uploader"
 import { ChatScoreboard } from "@/components/chat-scoreboard"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { Info, Github, Trophy } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -34,22 +35,25 @@ export default function Home() {
                 <p className="text-sm text-slate-600 dark:text-slate-300">Telegram Chat Analytics</p>
               </div>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              asChild
-              className="backdrop-blur-md bg-white/50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700"
-            >
-              <a
-                href="https://github.com/mhdsdt/chat-rank"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center space-x-2"
+            <div className="flex items-center space-x-3">
+              <ThemeToggle />
+              <Button
+                variant="outline"
+                size="sm"
+                asChild
+                className="backdrop-blur-md bg-white/50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700"
               >
-                <Github className="h-4 w-4" />
-                <span>GitHub</span>
-              </a>
-            </Button>
+                <a
+                  href="https://github.com/mhdsdt/chat-rank"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2"
+                >
+                  <Github className="h-4 w-4" />
+                  <span>GitHub</span>
+                </a>
+              </Button>
+            </div>
           </div>
         </div>
       </header>
