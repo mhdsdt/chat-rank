@@ -55,7 +55,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: "Inter", var(--font-vazirmatn), "Vazirmatn", system-ui, -apple-system, sans-serif;
+    font-family: var(--font-inter), var(--font-vazirmatn), "Vazirmatn", system-ui, -apple-system, sans-serif;
   }
 }
 
@@ -72,7 +72,7 @@
 
 /* Mixed content (Persian + English) */
 .mixed-content {
-  font-family: "Inter", var(--font-vazirmatn), "Vazirmatn", "Tahoma", system-ui, sans-serif;
+  font-family: var(--font-inter), var(--font-vazirmatn), "Vazirmatn", "Tahoma", system-ui, sans-serif;
 }
 
 /* Custom animations for beautiful background */

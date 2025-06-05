@@ -78,7 +78,8 @@ const config = {
         blur: "blur(20px)",
       },
       fontFamily: {
-        sans: ["Inter", "var(--font-vazirmatn)", "Vazirmatn", "system-ui", "sans-serif"],
+        sans: ["var(--font-inter)", "var(--font-vazirmatn)", "Vazirmatn", "system-ui", "sans-serif"],
+        inter: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],
         vazirmatn: ["var(--font-vazirmatn)", "Vazirmatn", "Tahoma", "Arial Unicode MS", "sans-serif"],
       },
     },

@@ -149,13 +149,13 @@ export function FileUploader({ onProcessedData, setIsProcessing }: FileUploaderP
         />
       </div>
 
-      <div className="flex flex-wrap gap-3">
-        <Button onClick={handleAnalyze} disabled={!selectedFile} className="flex-1 min-w-[120px]">
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <Button onClick={handleAnalyze} disabled={!selectedFile} className="flex-1 min-w-0">
           <Upload className="mr-2 h-4 w-4" />
           Analyze Chat History
         </Button>
 
-        <Button variant="outline" onClick={handleReset} disabled={!selectedFile} className="flex-1 min-w-[120px]">
+        <Button variant="outline" onClick={handleReset} disabled={!selectedFile} className="flex-1 min-w-0">
           <RotateCcw className="mr-2 h-4 w-4" />
           Reset
         </Button>
