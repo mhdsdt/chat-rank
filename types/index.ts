@@ -13,7 +13,9 @@ export interface TelegramChat {
   name?: string
   title?: string // Some chats use 'title' instead of 'name'
   type: string
-  id: number
+  id?: number
+  chat_id?: number // Alternative ID field
+  peer_id?: number // Another possible ID field
   first_name?: string
   last_name?: string
   messages: TelegramMessage[]
@@ -27,6 +29,7 @@ export interface TelegramChats {
 export interface PersonalInformation {
   first_name?: string
   last_name?: string
+  user_id?: number
   [key: string]: any
 }
 
@@ -39,5 +42,7 @@ export interface TelegramExportData {
 // Application specific types
 export interface SortedChatResult {
   name: string
+  id: string
+  fullName: string
   messageCount: number
 }

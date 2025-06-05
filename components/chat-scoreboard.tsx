@@ -11,6 +11,12 @@ interface ChatScoreboardProps {
   isProcessing: boolean
 }
 
+// Helper function to detect if text contains Persian/Arabic characters
+const containsPersianArabic = (text: string): boolean => {
+  const persianArabicRegex = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/
+  return persianArabicRegex.test(text)
+}
+
 export function ChatScoreboard({ data, isProcessing }: ChatScoreboardProps) {
   if (isProcessing) {
     return (
@@ -64,28 +70,46 @@ export function ChatScoreboard({ data, isProcessing }: ChatScoreboardProps) {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-16">Rank</TableHead>
+                <TableHead className="w-20">Rank</TableHead>
                 <TableHead>Contact / Chat Name</TableHead>
+                <TableHead className="w-24 text-center">ID</TableHead>
                 <TableHead className="text-right">Messages</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.map((chat, index) => (
-                <TableRow key={chat.name}>
-                  <TableCell className="font-medium">
-                    <div className="flex items-center space-x-2">
-                      {index === 0 && <span className="text-yellow-500">🥇</span>}
-                      {index === 1 && <span className="text-gray-400">🥈</span>}
-                      {index === 2 && <span className="text-amber-600">🥉</span>}
-                      <span>{index + 1}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell className="font-medium mixed-content">{chat.name}</TableCell>
-                  <TableCell className="text-right font-semibold">
-                    {new Intl.NumberFormat().format(chat.messageCount)}
-                  </TableCell>
-                </TableRow>
-              ))}
+              {data.map((chat, index) => {
+                const isPersianArabic = containsPersianArabic(chat.fullName)
+                const displayName = chat.fullName || chat.name
+                const showId = chat.id !== "unknown"
+
+                return (
+                  <TableRow key={`${chat.name}_${chat.id}`}>
+                    <TableCell className="font-medium">
+                      <div className="flex items-center justify-between w-full">
+                        <span className="text-right min-w-[2ch]">{index + 1}</span>
+                        <div className="flex items-center">
+                          {index === 0 && <span className="text-yellow-500 ml-1">🥇</span>}
+                          {index === 1 && <span className="text-gray-400 ml-1">🥈</span>}
+                          {index === 2 && <span className="text-amber-600 ml-1">🥉</span>}
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      <span className={isPersianArabic ? "font-vazirmatn" : "mixed-content"}>{displayName}</span>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {showId && (
+                        <span className="text-xs text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">
+                          #{chat.id}
+                        </span>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-right font-semibold">
+                      {new Intl.NumberFormat().format(chat.messageCount)}
+                    </TableCell>
+                  </TableRow>
+                )
+              })}
             </TableBody>
           </Table>
         </div>
