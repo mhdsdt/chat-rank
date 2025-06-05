@@ -258,7 +258,11 @@ export function ChatScoreboard({ data, isProcessing }: ChatScoreboardProps) {
                       variant={currentPage === pageNum ? "default" : "outline"}
                       size="sm"
                       onClick={() => goToPage(pageNum)}
-                      className="w-8 h-8 p-0 backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700"
+                      className={`w-8 h-8 p-0 ${
+                        currentPage === pageNum
+                          ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                          : "backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700"
+                      }`}
                     >
                       {pageNum}
                     </Button>

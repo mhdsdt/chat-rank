@@ -53,23 +53,10 @@ export function ExportGuide() {
         </li>
 
         <li className="pl-2">
-          <div className="font-medium">Select Format</div>
+          <div className="font-medium">Select Format and Export</div>
           <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-            Choose <span className="font-semibold">Machine-readable JSON</span> as the format
-          </p>
-        </li>
-
-        <li className="pl-2">
-          <div className="font-medium">Scope of Export</div>
-          <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-            Select <span className="font-semibold">All chats</span> for comprehensive analysis
-          </p>
-        </li>
-
-        <li className="pl-2">
-          <div className="font-medium">Export and Upload</div>
-          <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-            Click <span className="font-semibold">Export</span> and wait for the process to complete. Then upload the{" "}
+            Choose <span className="font-semibold">Machine-readable JSON</span> as the format, then click{" "}
+            <span className="font-semibold">Export</span> and wait for the process to complete. Upload the{" "}
             <span className="font-semibold">result.json</span> file to this application.
           </p>
         </li>
