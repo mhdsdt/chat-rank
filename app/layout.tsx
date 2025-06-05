@@ -17,6 +17,9 @@ export const metadata: Metadata = {
   title: "ChatRank - Telegram Chat Analytics",
   description:
     "Analyze your Telegram chat history and discover your most active conversations with beautiful analytics",
+  icons: {
+    icon: "/favicon.png",
+  },
     generator: 'v0.dev'
 }
 

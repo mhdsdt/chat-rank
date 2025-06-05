@@ -21,26 +21,41 @@ export function ExportGuide() {
         </li>
 
         <li className="pl-2">
-          <div className="font-medium">Navigate to Settings</div>
+          <div className="font-medium">Navigate to Export Settings</div>
           <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
             Open Telegram Desktop and go to <span className="font-semibold">Settings</span> &rarr;{" "}
-            <span className="font-semibold">Advanced</span> &rarr;{" "}
-            <span className="font-semibold">Export Telegram Data</span>
+            <span className="font-semibold">Advanced</span>. Look for{" "}
+            <span className="font-semibold">Export Telegram Data</span> - it's typically one item before the last item
+            in the Advanced settings menu.
           </p>
+        </li>
+
+        <li className="pl-2">
+          <div className="font-medium">Configure Export Options</div>
+          <div className="text-sm text-slate-600 dark:text-slate-400 mt-1 space-y-2">
+            <p>
+              <strong>Keep these checked:</strong>
+            </p>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Account information</li>
+              <li>Personal chats</li>
+            </ul>
+            <p>
+              <strong>Uncheck these to reduce file size:</strong>
+            </p>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Contacts list</li>
+              <li>Story archive</li>
+              <li>Private groups</li>
+              <li>Photos</li>
+            </ul>
+          </div>
         </li>
 
         <li className="pl-2">
           <div className="font-medium">Select Format</div>
           <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
             Choose <span className="font-semibold">Machine-readable JSON</span> as the format
-          </p>
-        </li>
-
-        <li className="pl-2">
-          <div className="font-medium">Optimize File Size (Recommended)</div>
-          <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-            Deselect media options to keep the file size small and processing faster. You only need the message data for
-            this analysis.
           </p>
         </li>
 
