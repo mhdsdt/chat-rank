@@ -8,8 +8,9 @@ import { Toaster } from "@/components/ui/toaster"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Telegram Chat Scoreboard",
-  description: "Analyze your Telegram chat history and see your most active conversations",
+  title: "ChatRank - Telegram Chat Analytics",
+  description:
+    "Analyze your Telegram chat history and discover your most active conversations with beautiful analytics",
     generator: 'v0.dev'
 }
 
