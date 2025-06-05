@@ -1,20 +1,15 @@
-# ChatRank - Telegram Chat Analytics
+# Telegram Chat Scoreboard
 
 A Next.js 15 application that allows users to upload their Telegram chat export JSON file and display a sorted scoreboard of their most chatted contacts/groups based on message count.
-
-## Repository
-
-GitHub: [https://github.com/mhdsdt/chat-rank](https://github.com/mhdsdt/chat-rank)
 
 ## Features
 
 - Upload and analyze Telegram chat export JSON files
-- Display a sorted scoreboard of most active chats with rankings and medals
+- Display a sorted scoreboard of most active chats
 - Client-side processing (no data is sent to any server)
-- Modern glassmorphism design with beautiful header
+- Modern glassmorphism design
 - Responsive UI for all device sizes
 - Dark mode support
-- Integrated export guide
 
 ## Tech Stack
 
@@ -37,8 +32,8 @@ GitHub: [https://github.com/mhdsdt/chat-rank](https://github.com/mhdsdt/chat-ran
 1. Clone the repository:
 
 \`\`\`bash
-git clone https://github.com/mhdsdt/chat-rank.git
-cd chat-rank
+git clone https://github.com/yourusername/telegram-chat-scoreboard.git
+cd telegram-chat-scoreboard
 \`\`\`
 
 2. Install dependencies with pnpm:
@@ -69,15 +64,7 @@ For example:
 npx shadcn@latest add dropdown-menu
 \`\`\`
 
-## Design Features
-
-### Beautiful Header
-- Sticky navigation with glassmorphism effect
-- ChatRank branding with trophy icon
-- Direct link to GitHub repository
-- Responsive design
-
-### Glassmorphism Design
+## Glassmorphism Design
 
 This application implements a glassmorphism design with the following characteristics:
 
@@ -88,12 +75,6 @@ This application implements a glassmorphism design with the following characteri
 - Depth through layering
 
 The glassmorphism effect is achieved through Tailwind CSS classes and custom styles in the globals.css file.
-
-### Enhanced User Experience
-- Medal system for top 3 chats (🥇🥈🥉)
-- Integrated export guide as tabs
-- Better organization of content
-- Improved visual hierarchy
 
 ## Privacy
 
