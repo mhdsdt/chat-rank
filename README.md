@@ -31,22 +31,22 @@ A Next.js 15 application that allows users to upload their Telegram chat export 
 
 1. Clone the repository:
 
-\`\`\`bash
+```bash
 git clone https://github.com/yourusername/telegram-chat-scoreboard.git
 cd telegram-chat-scoreboard
-\`\`\`
+```
 
 2. Install dependencies with pnpm:
 
-\`\`\`bash
+```bash
 pnpm install
-\`\`\`
+```
 
 3. Run the development server:
 
-\`\`\`bash
+```bash
 pnpm dev
-\`\`\`
+```
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
@@ -54,15 +54,15 @@ pnpm dev
 
 This project uses Shadcn UI components. If you need to add more components, use the following command:
 
-\`\`\`bash
+```bash
 npx shadcn@latest add <component-name>
-\`\`\`
+```
 
 For example:
 
-\`\`\`bash
+```bash
 npx shadcn@latest add dropdown-menu
-\`\`\`
+```
 
 ## Glassmorphism Design
 
