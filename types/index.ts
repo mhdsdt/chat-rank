@@ -6,61 +6,25 @@ export interface TelegramMessage {
   from?: string
   from_id?: string
   text: string | { text: string }[]
-  [key: string]: any // For other properties we don't explicitly define
+  [key: string]: any
 }
 
 export interface TelegramChat {
   name?: string
-  title?: string // Some chats use 'title' instead of 'name'
+  title?: string
   type: string
   id?: number
-  chat_id?: number // Alternative ID field
-  peer_id?: number // Another possible ID field
+  chat_id?: number
+  peer_id?: number
   first_name?: string
   last_name?: string
   messages: TelegramMessage[]
-  [key: string]: any // For other properties we don't explicitly define
+  [key: string]: any
 }
 
 export interface TelegramChats {
   list: TelegramChat[]
 }
 
-export interface PersonalInformation {
-  first_name?: string
-  last_name?: string
-  user_id?: number
-  [key: string]: any
-}
-
-export interface TelegramExportData {
-  chats: TelegramChats
-  personal_information?: PersonalInformation
-  [key: string]: any // For other properties we don't explicitly define
-}
-
-// Application specific types
-export interface SortedChatResult {
-  name: string
-  id: string
-  fullName: string
-  messageCount: number
-}
-
-// Message activity analytics types
-export interface MessageActivityData {
-  date: string
-  messageCount: number
-}
-
-export interface MessageActivityAnalytics {
-  daily: MessageActivityData[]
-  weekly: MessageActivityData[]
-  monthly: MessageActivityData[]
-}
-
-// Enhanced result type with analytics
-export interface AnalyticsResult {
-  chats: SortedChatResult[]
-  messageActivity: MessageActivityAnalytics
-}
+export
+\
