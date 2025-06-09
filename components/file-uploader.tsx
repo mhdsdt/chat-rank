@@ -11,10 +11,11 @@ import { useFileUpload } from "@/hooks/use-file-upload"
 
 interface FileUploaderProps {
   onProcessedData: (data: AnalyticsResult | null) => void
+  onAnalysisComplete?: () => void
   existingData?: AnalyticsResult | null
 }
 
-export function FileUploader({ onProcessedData, existingData }: FileUploaderProps) {
+export function FileUploader({ onProcessedData, onAnalysisComplete, existingData }: FileUploaderProps) {
   const {
     selectedFile,
     isProcessing,
@@ -26,7 +27,7 @@ export function FileUploader({ onProcessedData, existingData }: FileUploaderProp
     handleDrop,
     handleReset,
     handleAnalyze,
-  } = useFileUpload({ onProcessedData })
+  } = useFileUpload({ onProcessedData, onAnalysisComplete })
 
   const hasFileOrData = selectedFile || existingData
 

@@ -9,6 +9,7 @@ import type { AnalyticsResult } from "@/types"
 
 interface UseFileUploadProps {
   onProcessedData: (data: AnalyticsResult | null) => void
+  onAnalysisComplete?: () => void
 }
 
 interface UseFileUploadReturn {
@@ -26,7 +27,7 @@ interface UseFileUploadReturn {
   setIsProcessing: (isProcessing: boolean) => void
 }
 
-export function useFileUpload({ onProcessedData }: UseFileUploadProps): UseFileUploadReturn {
+export function useFileUpload({ onProcessedData, onAnalysisComplete }: UseFileUploadProps): UseFileUploadReturn {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
@@ -110,6 +111,11 @@ export function useFileUpload({ onProcessedData }: UseFileUploadProps): UseFileU
           title: "Analysis complete",
           description: `Successfully analyzed ${processedData.chats.length} chats.`,
         })
+
+        // Auto-navigate to analytics after successful processing
+        if (onAnalysisComplete) {
+          onAnalysisComplete()
+        }
       } catch (error) {
         console.error("Error processing file:", error)
         onProcessedData(null)
@@ -136,7 +142,7 @@ export function useFileUpload({ onProcessedData }: UseFileUploadProps): UseFileU
     }
 
     reader.readAsText(selectedFile)
-  }, [selectedFile, onProcessedData, toast])
+  }, [selectedFile, onProcessedData, toast, onAnalysisComplete])
 
   return {
     selectedFile,
