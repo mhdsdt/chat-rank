@@ -46,3 +46,21 @@ export interface SortedChatResult {
   fullName: string
   messageCount: number
 }
+
+// Message activity analytics types
+export interface MessageActivityData {
+  date: string
+  messageCount: number
+}
+
+export interface MessageActivityAnalytics {
+  daily: MessageActivityData[]
+  weekly: MessageActivityData[]
+  monthly: MessageActivityData[]
+}
+
+// Enhanced result type with analytics
+export interface AnalyticsResult {
+  chats: SortedChatResult[]
+  messageActivity: MessageActivityAnalytics
+}

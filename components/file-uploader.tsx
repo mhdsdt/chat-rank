@@ -2,24 +2,35 @@
 
 import type React from "react"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/components/ui/use-toast"
-import { Upload, FileJson, RotateCcw } from "lucide-react"
+import { Upload, FileJson, RotateCcw, Loader2 } from "lucide-react"
 import { parseTelegramExport } from "@/lib/parser"
-import type { SortedChatResult } from "@/types"
+import { ExportGuide } from "@/components/export-guide"
+import type { AnalyticsResult } from "@/types"
 
 interface FileUploaderProps {
-  onProcessedData: (data: SortedChatResult[] | null) => void
+  onProcessedData: (data: AnalyticsResult | null) => void
   setIsProcessing: (isProcessing: boolean) => void
+  isProcessing: boolean
+  existingData?: AnalyticsResult | null
 }
 
-export function FileUploader({ onProcessedData, setIsProcessing }: FileUploaderProps) {
+export function FileUploader({ onProcessedData, setIsProcessing, isProcessing, existingData }: FileUploaderProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [isDragging, setIsDragging] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const { toast } = useToast()
+
+  // Keep the file selected if we have existing data
+  useEffect(() => {
+    if (existingData && !selectedFile) {
+      // Create a dummy file representation to show that data exists
+      // This is just for UI state, the actual data is already processed
+    }
+  }, [existingData, selectedFile])
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null
@@ -87,7 +98,7 @@ export function FileUploader({ onProcessedData, setIsProcessing }: FileUploaderP
 
         toast({
           title: "Analysis complete",
-          description: `Successfully analyzed ${processedData.length} chats.`,
+          description: `Successfully analyzed ${processedData.chats.length} chats.`,
         })
       } catch (error) {
         console.error("Error processing file:", error)
@@ -115,6 +126,9 @@ export function FileUploader({ onProcessedData, setIsProcessing }: FileUploaderP
     reader.readAsText(selectedFile)
   }
 
+  // Show that we have data even if no file is currently selected
+  const hasFileOrData = selectedFile || existingData
+
   return (
     <div className="space-y-4">
       <div
@@ -135,7 +149,11 @@ export function FileUploader({ onProcessedData, setIsProcessing }: FileUploaderP
           </div>
           <div className="space-y-1">
             <p className="text-sm font-medium">
-              {selectedFile ? selectedFile.name : "Drop your Telegram export JSON file here"}
+              {selectedFile
+                ? selectedFile.name
+                : existingData
+                  ? "Data already loaded - select new file to replace"
+                  : "Drop your Telegram export JSON file here"}
             </p>
             <p className="text-xs text-slate-500 dark:text-slate-400">or click to browse (JSON only)</p>
           </div>
@@ -149,13 +167,32 @@ export function FileUploader({ onProcessedData, setIsProcessing }: FileUploaderP
         />
       </div>
 
-      <div className="flex flex-col gap-3 sm:flex-row">
-        <Button onClick={handleAnalyze} disabled={!selectedFile} className="flex-1 min-w-0">
-          <Upload className="mr-2 h-4 w-4" />
-          Analyze Chat History
+      {/* Export Guide outside of drop area */}
+      <div className="text-center">
+        <ExportGuide />
+      </div>
+
+      <div className="flex flex-col sm:flex-row gap-3">
+        <Button onClick={handleAnalyze} disabled={!hasFileOrData || isProcessing} className="flex-1 min-w-0">
+          {isProcessing ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Analyzing...
+            </>
+          ) : (
+            <>
+              <Upload className="mr-2 h-4 w-4" />
+              {existingData && !selectedFile ? "Re-analyze Data" : "Analyze Chat History"}
+            </>
+          )}
         </Button>
 
-        <Button variant="outline" onClick={handleReset} disabled={!selectedFile} className="flex-1 min-w-0">
+        <Button
+          variant="outline"
+          onClick={handleReset}
+          disabled={(!hasFileOrData && !existingData) || isProcessing}
+          className="flex-1 min-w-0"
+        >
           <RotateCcw className="mr-2 h-4 w-4" />
           Reset
         </Button>

@@ -4,22 +4,32 @@ import { useState } from "react"
 import { FileUploader } from "@/components/file-uploader"
 import { ChatScoreboard } from "@/components/chat-scoreboard"
 import { ThemeToggle } from "@/components/theme-toggle"
-import { Info, Github, Trophy } from "lucide-react"
+import { Info, Github, Trophy, ArrowLeft } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import type { SortedChatResult } from "@/types"
+import type { AnalyticsResult } from "@/types"
+
+type ViewState = "upload" | "analytics"
 
 export default function Home() {
-  const [chatData, setChatData] = useState<SortedChatResult[] | null>(null)
+  const [chatData, setChatData] = useState<AnalyticsResult | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
+  const [currentView, setCurrentView] = useState<ViewState>("upload")
 
-  const handleProcessedData = (data: SortedChatResult[] | null) => {
+  const handleProcessedData = (data: AnalyticsResult | null) => {
     setChatData(data)
     setIsProcessing(false)
+    if (data) {
+      setCurrentView("analytics")
+    }
+  }
+
+  const handleBackToUpload = () => {
+    setCurrentView("upload")
   }
 
   return (
-    <main className="min-h-screen relative overflow-hidden">
+    <main className="flex flex-col h-screen overflow-hidden">
       {/* Animated Background */}
       <div className="fixed inset-0 -z-10">
         {/* Base gradient */}
@@ -47,17 +57,17 @@ export default function Home() {
 
       {/* Header */}
       <header className="backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border-b border-slate-200/50 dark:border-slate-700/50 shadow-lg sticky top-0 z-50">
-        <div className="max-w-5xl mx-auto px-4 md:px-8 py-4">
+        <div className="max-w-7xl mx-auto px-3 py-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="rounded-full bg-gradient-to-r from-purple-500 to-blue-500 p-2 shadow-lg">
-                <Trophy className="h-6 w-6 text-white" />
+              <div className="rounded-full bg-gradient-to-r from-purple-500 to-blue-500 p-1.5 shadow-lg">
+                <Trophy className="h-5 w-5 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500">
+                <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500">
                   ChatRank
                 </h1>
-                <p className="text-sm text-slate-600 dark:text-slate-300">Telegram Chat Analytics</p>
+                <p className="text-xs text-slate-600 dark:text-slate-300">Telegram Chat Analytics</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">
@@ -83,52 +93,76 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="max-w-5xl mx-auto p-4 md:p-8 space-y-8 relative z-10">
-        {/* Hero Section */}
-        <div className="text-center space-y-4 py-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-800 dark:text-slate-100">
-            Discover Your Top Telegram Chats
-          </h2>
-          <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-            Upload your Telegram chat export and see who you message the most. Get insights into your communication
-            patterns with beautiful analytics.
-          </p>
-        </div>
-
-        {/* Upload Section */}
-        <Card className="backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border border-slate-200/50 dark:border-slate-700/50 shadow-xl">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Trophy className="h-5 w-5 text-purple-500" />
-              <span>Upload Your Chat Export</span>
-            </CardTitle>
-            <CardDescription>Select your Telegram chat export JSON file to analyze</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="mb-4 p-3 bg-blue-50/80 dark:bg-blue-900/30 rounded-md border border-blue-100/50 dark:border-blue-800/50 flex items-start gap-3 backdrop-blur-sm">
-              <Info className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-blue-700 dark:text-blue-300">
-                Your data is processed entirely in your browser and is never uploaded or saved on our servers. We
-                prioritize your privacy.
-              </p>
+      <div className="flex-1 overflow-hidden">
+        {currentView === "upload" ? (
+          // Upload View
+          <div className="max-w-2xl mx-auto p-3 pt-8 h-full">
+            <Card className="backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border border-slate-200/50 dark:border-slate-700/50 shadow-xl">
+              <CardHeader className="pb-2">
+                <CardTitle className="flex items-center space-x-2">
+                  <Trophy className="h-5 w-5 text-purple-500" />
+                  <span>Upload Your Chat Export</span>
+                </CardTitle>
+                <CardDescription>Select your Telegram chat export JSON file to analyze</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="mb-4 p-3 bg-blue-50/80 dark:bg-blue-900/30 rounded-md border border-blue-100/50 dark:border-blue-800/50 flex items-start gap-3 backdrop-blur-sm">
+                  <Info className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
+                  <div className="text-sm text-blue-700 dark:text-blue-300">
+                    <p>
+                      Data processed in your browser only. <strong>Disconnect from the internet</strong> for extra
+                      privacy.
+                    </p>
+                  </div>
+                </div>
+                <FileUploader
+                  onProcessedData={handleProcessedData}
+                  setIsProcessing={setIsProcessing}
+                  isProcessing={isProcessing}
+                  existingData={chatData}
+                />
+                {chatData && (
+                  <div className="mt-4 p-3 bg-green-50/80 dark:bg-green-900/30 rounded-md border border-green-100/50 dark:border-green-800/50">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm text-green-700 dark:text-green-300">
+                        Successfully analyzed {chatData.chats.length} chats.
+                      </p>
+                      <Button onClick={() => setCurrentView("analytics")} size="sm">
+                        View Analytics
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        ) : (
+          // Analytics View - with max width
+          <div className="h-full p-3 flex justify-center">
+            <div className="w-full max-w-6xl">
+              <Card className="backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border border-slate-200/50 dark:border-slate-700/50 shadow-xl h-full">
+                <CardHeader className="pb-2">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="flex items-center space-x-2">
+                        <Trophy className="h-5 w-5 text-purple-500" />
+                        <span>Chat Analytics</span>
+                      </CardTitle>
+                      <CardDescription>Explore your Telegram chat insights</CardDescription>
+                    </div>
+                    <Button variant="outline" onClick={handleBackToUpload} size="sm">
+                      <ArrowLeft className="h-4 w-4 mr-2" />
+                      Back to Upload
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent className="h-[calc(100%-80px)] overflow-hidden p-3">
+                  <ChatScoreboard data={chatData} isProcessing={isProcessing} />
+                </CardContent>
+              </Card>
             </div>
-            <FileUploader onProcessedData={handleProcessedData} setIsProcessing={setIsProcessing} />
-          </CardContent>
-        </Card>
-
-        {/* Results Section */}
-        <Card className="backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border border-slate-200/50 dark:border-slate-700/50 shadow-xl">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Trophy className="h-5 w-5 text-purple-500" />
-              <span>Your Chat Rankings</span>
-            </CardTitle>
-            <CardDescription>See your most active chats ranked by message count</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ChatScoreboard data={chatData} isProcessing={isProcessing} />
-          </CardContent>
-        </Card>
+          </div>
+        )}
       </div>
     </main>
   )

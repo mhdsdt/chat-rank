@@ -1,6 +1,12 @@
-import type { TelegramExportData, SortedChatResult } from "@/types"
+import type {
+  TelegramExportData,
+  SortedChatResult,
+  MessageActivityAnalytics,
+  MessageActivityData,
+  AnalyticsResult,
+} from "@/types"
 
-export function parseTelegramExport(data: TelegramExportData): SortedChatResult[] {
+export function parseTelegramExport(data: TelegramExportData): AnalyticsResult {
   // Check if the data has the expected structure
   if (!data.chats || !data.chats.list) {
     throw new Error("Invalid Telegram export format")
@@ -15,12 +21,22 @@ export function parseTelegramExport(data: TelegramExportData): SortedChatResult[
   // Use a Map with composite keys (name + id) to track unique chats
   const chatCounts = new Map<string, { name: string; id: string; fullName: string; messageCount: number }>()
 
+  // Collect all messages for activity analysis
+  const allMessages: { date: string }[] = []
+
   // Process each chat in the export
   data.chats.list.forEach((chat) => {
     // Skip empty chats
     if (!chat.messages || chat.messages.length === 0) {
       return
     }
+
+    // Add messages to activity analysis
+    chat.messages.forEach((message) => {
+      if (message.date) {
+        allMessages.push({ date: message.date })
+      }
+    })
 
     // Get chat name based on available fields (matching Python logic)
     let chatName = "Unknown Chat"
@@ -123,5 +139,57 @@ export function parseTelegramExport(data: TelegramExportData): SortedChatResult[
     }))
     .sort((a, b) => b.messageCount - a.messageCount)
 
-  return sortedChats
+  // Generate message activity analytics
+  const messageActivity = generateMessageActivityAnalytics(allMessages)
+
+  return {
+    chats: sortedChats,
+    messageActivity,
+  }
+}
+
+function generateMessageActivityAnalytics(messages: { date: string }[]): MessageActivityAnalytics {
+  // Parse dates and group by different time periods
+  const dailyCounts = new Map<string, number>()
+  const weeklyCounts = new Map<string, number>()
+  const monthlyCounts = new Map<string, number>()
+
+  messages.forEach(({ date }) => {
+    try {
+      const messageDate = new Date(date)
+      if (isNaN(messageDate.getTime())) return
+
+      // Daily aggregation (YYYY-MM-DD)
+      const dailyKey = messageDate.toISOString().split("T")[0]
+      dailyCounts.set(dailyKey, (dailyCounts.get(dailyKey) || 0) + 1)
+
+      // Weekly aggregation (YYYY-WW)
+      const weekStart = new Date(messageDate)
+      weekStart.setDate(messageDate.getDate() - messageDate.getDay())
+      const weeklyKey = weekStart.toISOString().split("T")[0]
+      weeklyCounts.set(weeklyKey, (weeklyCounts.get(weeklyKey) || 0) + 1)
+
+      // Monthly aggregation (YYYY-MM)
+      const monthlyKey = `${messageDate.getFullYear()}-${String(messageDate.getMonth() + 1).padStart(2, "0")}`
+      monthlyCounts.set(monthlyKey, (monthlyCounts.get(monthlyKey) || 0) + 1)
+    } catch (error) {
+      // Skip invalid dates
+      console.warn("Invalid date format:", date)
+    }
+  })
+
+  // Convert maps to sorted arrays
+  const daily: MessageActivityData[] = Array.from(dailyCounts.entries())
+    .map(([date, messageCount]) => ({ date, messageCount }))
+    .sort((a, b) => a.date.localeCompare(b.date))
+
+  const weekly: MessageActivityData[] = Array.from(weeklyCounts.entries())
+    .map(([date, messageCount]) => ({ date, messageCount }))
+    .sort((a, b) => a.date.localeCompare(b.date))
+
+  const monthly: MessageActivityData[] = Array.from(monthlyCounts.entries())
+    .map(([date, messageCount]) => ({ date, messageCount }))
+    .sort((a, b) => a.date.localeCompare(b.date))
+
+  return { daily, weekly, monthly }
 }
