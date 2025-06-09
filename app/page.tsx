@@ -67,7 +67,11 @@ function UploadView({ chatData, onProcessedData, isProcessing, setIsProcessing, 
         </CardHeader>
         <CardContent>
           <PrivacyNotice />
-          <FileUploader onProcessedData={onProcessedData} existingData={chatData} />
+          <FileUploader
+            onProcessedData={onProcessedData}
+            onAnalysisComplete={onViewAnalytics}
+            existingData={chatData}
+          />
           {chatData && <SuccessNotice data={chatData} onViewAnalytics={onViewAnalytics} />}
         </CardContent>
       </Card>
