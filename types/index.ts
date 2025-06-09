@@ -6,20 +6,20 @@ export interface TelegramMessage {
   from?: string
   from_id?: string
   text: string | { text: string }[]
-  [key: string]: any // For other properties we don't explicitly define
+  [key: string]: any
 }
 
 export interface TelegramChat {
   name?: string
-  title?: string // Some chats use 'title' instead of 'name'
+  title?: string
   type: string
   id?: number
-  chat_id?: number // Alternative ID field
-  peer_id?: number // Another possible ID field
+  chat_id?: number
+  peer_id?: number
   first_name?: string
   last_name?: string
   messages: TelegramMessage[]
-  [key: string]: any // For other properties we don't explicitly define
+  [key: string]: any
 }
 
 export interface TelegramChats {
@@ -36,7 +36,7 @@ export interface PersonalInformation {
 export interface TelegramExportData {
   chats: TelegramChats
   personal_information?: PersonalInformation
-  [key: string]: any // For other properties we don't explicitly define
+  [key: string]: any
 }
 
 // Application specific types
@@ -63,4 +63,21 @@ export interface MessageActivityAnalytics {
 export interface AnalyticsResult {
   chats: SortedChatResult[]
   messageActivity: MessageActivityAnalytics
+}
+
+// UI component types
+export type ViewState = "upload" | "analytics"
+export type TimeRange = "daily" | "weekly" | "monthly"
+
+// Hook types
+export interface PaginationConfig {
+  totalItems: number
+  itemsPerPage: number
+  initialPage?: number
+}
+
+export interface SearchConfig<T> {
+  items: T[]
+  searchFields: (keyof T)[]
+  initialQuery?: string
 }
