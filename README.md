@@ -59,22 +59,22 @@ The application follows modern React patterns with a focus on maintainability an
 
 1. Clone the repository:
 
-\`\`\`bash
+```
 git clone https://github.com/mhdsdt/chat-rank.git
 cd chat-rank
-\`\`\`
+```
 
 2. Install dependencies with pnpm:
 
-\`\`\`bash
+```
 pnpm install
-\`\`\`
+```
 
 3. Run the development server:
 
-\`\`\`bash
+```
 pnpm dev
-\`\`\`
+```
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
@@ -82,15 +82,15 @@ pnpm dev
 
 This project uses Shadcn UI components. If you need to add more components, use the following command:
 
-\`\`\`bash
+```
 npx shadcn@latest add <component-name>
-\`\`\`
+```
 
 For example:
 
-\`\`\`bash
+```
 npx shadcn@latest add dropdown-menu
-\`\`\`
+```
 
 ## Design Features
 
@@ -127,9 +127,3 @@ This application processes all data entirely in the browser. Your Telegram chat 
 ## License
 
 MIT
-\`\`\`
-
-Finally, let's update the main chat scoreboard import:
-
-```typescriptreact file="components/chat-scoreboard.tsx"
-[v0-no-op-code-block-prefix]export { ChatScoreboard } from './chat-scoreboard/chat-scoreboard'
